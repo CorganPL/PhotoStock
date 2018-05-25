@@ -37,11 +37,12 @@ public class MasterpieceAvailability extends BaseAggregateRoot {
     }
 
     public void reservedPer(Owner owner, Resolution res){
-        reservations.add(new Reservation(owner, LocalDate.now(), res,"Reserved"));
+        reservations.add(new Reservation(owner, LocalDate.now(), res,"RESERVED"));
     }
 
     public void soldPer(Owner owner, Resolution res){
         reservations.add(new Reservation(owner, LocalDate.now(),  res,"SOLD"));
+        eventEmiter.emitEvent(new ProductSoldEvent(id, res));
     }
 
     private boolean notReservedPer(Owner owner, Resolution res){
